@@ -1,0 +1,185 @@
+---
+// RegaloQR.astro
+---
+
+<section class="py-8 md:py-12 lg:py-16 px-4 relative overflow-hidden">
+  <!-- Fondo sutil con textura -->
+  <div
+    class="absolute inset-0 bg-gradient-to-b from-[#fffaf5]/40 via-[#faf8f5]/20 to-[#fffaf5]/40 z-0"
+  >
+  </div>
+
+  <div class="max-w-4xl mx-auto relative z-10">
+    <!-- 🌸 SEPARADOR SUPERIOR -->
+    <div class="flex justify-center mb-4" id="separador-qr-top">
+      <img
+        src="/imagenes/FlorSeparador.webp"
+        alt="Separador decorativo"
+        class="w-48 md:w-56 lg:w-64 h-auto object-contain opacity-90"
+      />
+    </div>
+
+    <!-- CARD (mismo estilo que el calendario) -->
+    <div
+      class="relative z-10 max-w-2xl mx-auto bg-white rounded-3xl shadow-lg border-2 border-[#a27735] px-6 py-8 md:px-10 md:py-10"
+      id="card-qr"
+    >
+      <!-- 🎁 ÍCONO DE REGALO -->
+      <div class="flex justify-center mb-2" id="icono-regalo">
+        <svg
+          class="w-16 h-16 md:w-20 md:h-20 text-[#a27735]"
+          viewBox="0 0 64 64"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect x="9" y="26" width="46" height="30" rx="2.5"></rect>
+          <rect x="5" y="17" width="54" height="9" rx="2.5"></rect>
+          <line x1="32" y1="17" x2="32" y2="56"></line>
+          <path d="M32 17c-3.5-6.5-7-9.5-11-9.5a5.5 5.5 0 0 0 0 11H32z"></path>
+          <path d="M32 17c3.5-6.5 7-9.5 11-9.5a5.5 5.5 0 0 1 0 11H32z"></path>
+        </svg>
+      </div>
+
+      <!-- TÍTULO -->
+      <div class="text-center mb-4" id="titulo-qr">
+        <h2
+          class="font-great-vibes text-4xl md:text-5xl lg:text-6xl text-[#a27735] leading-tight"
+        >
+          Sugerencia de Regalo
+        </h2>
+        <!-- Línea decorativa -->
+        <div class="flex items-center justify-center gap-3 mt-2">
+          <div
+            class="w-12 md:w-16 h-[2px] bg-gradient-to-r from-transparent to-[#a27735]"
+          >
+          </div>
+          <div class="w-2 h-2 rounded-full bg-[#a27735]"></div>
+          <div
+            class="w-12 md:w-16 h-[2px] bg-gradient-to-l from-transparent to-[#a27735]"
+          >
+          </div>
+        </div>
+      </div>
+
+      <!-- MENSAJE PRINCIPAL -->
+      <p
+        class="font-charm text-xl md:text-2xl text-[#8B0000] text-center leading-relaxed"
+        id="mensaje-qr"
+      >
+        Si deseas hacerme un obsequio, puedes sorprenderme con maquillaje o
+        joyas de plata que me encantarán.
+      </p>
+
+      <!-- DECORACIÓN INFERIOR -->
+      <div class="flex justify-center mt-6" id="decoracion-qr">
+        <div class="flex gap-2">
+          <div class="w-2 h-2 rounded-full bg-[#a27735] opacity-60"></div>
+          <div class="w-2 h-2 rounded-full bg-[#a27735] opacity-80"></div>
+          <div class="w-2 h-2 rounded-full bg-[#a27735]"></div>
+          <div class="w-2 h-2 rounded-full bg-[#a27735] opacity-80"></div>
+          <div class="w-2 h-2 rounded-full bg-[#a27735] opacity-60"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  if (typeof window !== "undefined") {
+    document.addEventListener("DOMContentLoaded", () => {
+      console.log("馃捀 Iniciando animaci贸n de Mesa de Regalos/QR...");
+
+      // 馃幆 ESTADO INICIAL - Todo con scale 0.8 para animaci贸n simult谩nea
+      gsap.set("#separador-qr-top", { opacity: 0, scale: 0.8 });
+      gsap.set("#icono-regalo", { opacity: 0, scale: 0.8 });
+      gsap.set("#titulo-qr", { opacity: 0, scale: 0.8 });
+      gsap.set("#mensaje-qr", { opacity: 0, scale: 0.8 });
+      gsap.set("#card-qr", { opacity: 0, scale: 0.8 });
+      gsap.set("#decoracion-qr", { opacity: 0, scale: 0.8 });
+
+      // 鉁?ANIMACI脫N CON SCROLLTRIGGER - TODO SIMULT脕NEO
+      ScrollTrigger.create({
+        trigger: "#separador-qr-top",
+        start: "top 85%",
+        end: "top 20%",
+        onEnter: () => {
+          // TODAS LAS ANIMACIONES AL MISMO TIEMPO
+          gsap.to(
+            "#separador-qr-top, #icono-regalo, #titulo-qr, #mensaje-qr, #card-qr, #decoracion-qr",
+            {
+              opacity: 1,
+              scale: 1,
+              duration: 1.2,
+              ease: "back.out(1.4)",
+            },
+          );
+
+          // 馃挮 ANIMACIONES CONTINUAS (despu茅s de la entrada)
+
+          // Pulso en puntos decorativos
+          gsap.to("#decoracion-qr > div > div", {
+            scale: 1.3,
+            opacity: 0.4,
+            duration: 2,
+            ease: "sine.inOut",
+            yoyo: true,
+            repeat: -1,
+            stagger: 0.15,
+            delay: 1.5,
+          });
+        },
+        onLeaveBack: () => {
+          // Restaurar estado inicial
+          gsap.set("#separador-qr-top", { opacity: 0, scale: 0.8 });
+          gsap.set("#icono-regalo", { opacity: 0, scale: 0.8 });
+          gsap.set("#titulo-qr", { opacity: 0, scale: 0.8 });
+          gsap.set("#mensaje-qr", { opacity: 0, scale: 0.8 });
+          gsap.set("#card-qr", { opacity: 0, scale: 0.8 });
+          gsap.set("#decoracion-qr", { opacity: 0, scale: 0.8 });
+        },
+      });
+
+      console.log("馃捀鉁?隆Componente Mesa de Regalos/QR activado!");
+    });
+  }
+</script>
+
+<style>
+  /* Transici贸n suave para el card */
+  #card-qr {
+    transition: all 0.3s ease;
+  }
+
+  #card-qr:hover {
+    box-shadow: 0 25px 60px rgba(162, 119, 53, 0.25);
+    transform: translateY(-5px);
+  }
+
+  /* Separadores con hover */
+  #separador-qr-top img {
+    transition: all 0.3s ease;
+  }
+
+  #separador-qr-top:hover img {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+  }
+
+  /* Puntos decorativos */
+  #decoracion-qr > div > div {
+    transition: all 0.3s ease;
+  }
+
+  /* Mensaje principal con hover sutil */
+  #mensaje-qr p {
+    transition: color 0.3s ease;
+  }
+</style>
